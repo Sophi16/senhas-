@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificador</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #24292e;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eee;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Codificador</h1>
+
+        <label>Digite o texto:</label>
+        <input type="text" id="texto" placeholder="Ex: Ola Mundo! 123">
+
+        <label>Deslocamento:</label>
+        <input type="number" id="deslocamento" value="3">
+
+        <button onclick="codificar()">Codificar</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function codifica(texto, deslocamento) {
+            let resultado = "";
+
+            for (let caractere of texto) {
+
+                // Letras minúsculas
+                if (caractere >= 'a' && caractere <= 'z') {
+                    let codigo =
+                        (caractere.charCodeAt(0) - 97 + deslocamento) % 26;
+
+                    if (codigo < 0) {
+                        codigo += 26;
+                    }
+
+                    resultado += String.fromCharCode(codigo + 97);
+                }
+
+                // Letras maiúsculas
+                else if (caractere >= 'A' && caractere <= 'Z') {
+                    let codigo =
+                        (caractere.charCodeAt(0) - 65 + deslocamento) % 26;
+
+                    if (codigo < 0) {
+                        codigo += 26;
+                    }
+
+                    resultado += String.fromCharCode(codigo + 65);
+                }
+
+                // Números
+                else if (caractere >= '0' && caractere <= '9') {
+                    let codigo =
+                        (caractere.charCodeAt(0) - 48 + deslocamento) % 10;
+
+                    if (codigo < 0) {
+                        codigo += 10;
+                    }
+
+                    resultado += String.fromCharCode(codigo + 48);
+                }
+
+                // Caracteres especiais permanecem iguais
+                else {
+                    resultado += caractere;
+                }
+            }
+
+            return resultado;
+        }
+
+        function codificar() {
+            const texto = document.getElementById("texto").value;
+            const deslocamento =
+                Number(document.getElementById("deslocamento").value);
+
+            const resultado = codifica(texto, deslocamento);
+
+            document.getElementById("resultado").textContent =
+                "Resultado: " + resultado;
+        }
+    </script>
+
+</body>
+</html>
